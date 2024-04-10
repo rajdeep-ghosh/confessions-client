@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ErrorBoundary } from "react-error-boundary";
+import { inject } from "@vercel/analytics";
 import { getIP } from "./api/services/ip";
 import { getFromLS, setToLS, setToSS } from "./utils/storage";
-import { ErrorBoundary } from "react-error-boundary";
 import { errorHandler } from "./utils/error";
 import nanoid from "./lib/nanoid";
 import PostProvider from "./context/postContext";
@@ -34,6 +35,8 @@ export default function App() {
       setToLS("uid", nanoid());
     }
   }, []);
+
+  useEffect(() => inject(), []);
 
   return (
     <ErrorBoundary
